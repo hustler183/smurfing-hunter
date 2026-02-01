@@ -59,7 +59,42 @@ if uploaded_file:
                 pass
 
     # VISUALIZATION
-    st.subheader("🕸 Transaction Graph")
-    fig, ax = plt.subplots(figsize=(10, 6))
-    nx.draw(G, with_labels=True, node_size=500, font_size=8, ax=ax)
-    st.pyplot(fig)
+    # VISUALIZATION
+st.subheader("🕸 Transaction Graph")
+
+# Use spring layout with more spacing
+pos = nx.spring_layout(G, k=1.2, iterations=50, seed=42)
+
+fig, ax = plt.subplots(figsize=(12, 8))
+
+# Draw nodes
+nx.draw_networkx_nodes(
+    G,
+    pos,
+    node_size=700,
+    node_color="skyblue",
+    ax=ax
+)
+
+# Draw edges
+nx.draw_networkx_edges(
+    G,
+    pos,
+    arrowstyle="->",
+    arrowsize=12,
+    edge_color="gray",
+    ax=ax
+)
+
+# Draw labels slightly offset
+label_pos = {k: (v[0], v[1] + 0.05) for k, v in pos.items()}
+nx.draw_networkx_labels(
+    G,
+    label_pos,
+    font_size=9,
+    ax=ax
+)
+
+ax.set_axis_off()
+st.pyplot(fig)
+
